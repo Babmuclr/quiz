@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quizbank.dart';
 
 void main() => runApp(Quizzler());
@@ -44,8 +44,15 @@ class _QuizPageState extends State<QuizPage> {
     return icon;
   }
 
+  void countCollects(bool isCollect){
+    if (isCollect) {
+      numCollectAnswer++;
+    }
+  }
+
   List<Icon> scoreKeeper = [];
   Quizbank quizbank = Quizbank();
+  int numCollectAnswer = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +92,30 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  scoreKeeper.add(
-                    createIcon(true == quizbank.getQuizAnswer()),
-                  );
-                  quizbank.nextQuestion();
+                  scoreKeeper.add(createIcon(true == quizbank.getQuizAnswer()));
+                  countCollects(true == quizbank.getQuizAnswer());
+                  if (quizbank.isFinished()){
+                    Alert(
+                      context: context,
+                      title: "Finished",
+                      desc: "You Get $numCollectAnswer.",
+                      buttons: [
+                        DialogButton(
+                          child: Text('Reset'),
+                          onPressed: () {
+                            setState(() {
+                              quizbank.resetQuestionNum();
+                              scoreKeeper = [];
+                              numCollectAnswer=0;
+                            });
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ).show();
+                  }else{
+                    quizbank.nextQuestion();
+                  }
                 });
               },
             ),
@@ -110,16 +137,35 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  scoreKeeper.add(
-                    createIcon(false == quizbank.getQuizAnswer()),
-                  );
-                  quizbank.nextQuestion();
+                  scoreKeeper.add(createIcon(false == quizbank.getQuizAnswer()),);
+                  countCollects(false == quizbank.getQuizAnswer());
+                  if (quizbank.isFinished()){
+                    Alert(
+                      context: context,
+                      title: "Finished",
+                      desc: "You Get $numCollectAnswer.",
+                      buttons: [
+                        DialogButton(
+                          child: Text('Reset'),
+                          onPressed: () {
+                            setState(() {
+                              quizbank.resetQuestionNum();
+                              scoreKeeper = [];
+                              numCollectAnswer=0;
+                            });
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ).show();
+                  }else{
+                    quizbank.nextQuestion();
+                  }
                 });
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
         Row(
           children: scoreKeeper,
         ),

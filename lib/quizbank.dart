@@ -1,4 +1,5 @@
 import 'question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Quizbank {
   int _questionNum = 0;
@@ -29,6 +30,14 @@ class Quizbank {
         'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
         true),
   ];
+
+  bool isFinished() {
+    return _quizBank.length == _questionNum + 1;
+  }
+
+  void resetQuestionNum() {
+    _questionNum = 0;
+  }
 
   void nextQuestion() {
     if (_questionNum < _quizBank.length - 1){
