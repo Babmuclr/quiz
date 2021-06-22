@@ -95,24 +95,14 @@ class _QuizPageState extends State<QuizPage> {
                   scoreKeeper.add(createIcon(true == quizbank.getQuizAnswer()));
                   countCollects(true == quizbank.getQuizAnswer());
                   if (quizbank.isFinished()){
+                    quizbank.resetQuestionNum();
+                    scoreKeeper = [];
                     Alert(
                       context: context,
                       title: "Finished",
-                      desc: "You Get $numCollectAnswer.",
-                      buttons: [
-                        DialogButton(
-                          child: Text('Reset'),
-                          onPressed: () {
-                            setState(() {
-                              quizbank.resetQuestionNum();
-                              scoreKeeper = [];
-                              numCollectAnswer=0;
-                            });
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
+                      desc: "You Get $numCollectAnswer / ${quizbank.getLength()}",
                     ).show();
+                    numCollectAnswer=0;
                   }else{
                     quizbank.nextQuestion();
                   }
@@ -140,24 +130,14 @@ class _QuizPageState extends State<QuizPage> {
                   scoreKeeper.add(createIcon(false == quizbank.getQuizAnswer()),);
                   countCollects(false == quizbank.getQuizAnswer());
                   if (quizbank.isFinished()){
+                    quizbank.resetQuestionNum();
+                    scoreKeeper = [];
                     Alert(
                       context: context,
                       title: "Finished",
-                      desc: "You Get $numCollectAnswer.",
-                      buttons: [
-                        DialogButton(
-                          child: Text('Reset'),
-                          onPressed: () {
-                            setState(() {
-                              quizbank.resetQuestionNum();
-                              scoreKeeper = [];
-                              numCollectAnswer=0;
-                            });
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
+                      desc: "You Get $numCollectAnswer / ${quizbank.getLength()}",
                     ).show();
+                    numCollectAnswer=0;
                   }else{
                     quizbank.nextQuestion();
                   }

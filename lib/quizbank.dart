@@ -1,5 +1,4 @@
 import 'question.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Quizbank {
   int _questionNum = 0;
@@ -51,5 +50,9 @@ class Quizbank {
 
   bool getQuizAnswer(){
     return _quizBank[_questionNum].questionAnswer;
+  }
+
+  int getLength(){
+    return _quizBank.length;
   }
 }
